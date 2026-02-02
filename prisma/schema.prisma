@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Reservation {
+  id        String   @id @default(uuid())
+  date      String   // YYYY-MM-DD
+  timeSlot  String   // "11:30", "12:15", "13:00"
+  name      String
+  email     String?
+  phone     String
+  people    Int
+  teishokuCount Int      @default(0)
+  seatOnlyCount Int      @default(0)
+  memo      String?
+  status        String        @default("PENDING") // PENDING, CONFIRMED, REJECTED, CANCELLED
+  createdAt     DateTime      @default(now())
+  tokens        ActionToken[]
+}
+
+model ActionToken {
+  id            String      @id @default(uuid())
+  token         String      @unique
+  reservationId String
+  reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  action        String      // APPROVE, REJECT
+  expiresAt     DateTime
+  createdAt     DateTime    @default(now())
+}
