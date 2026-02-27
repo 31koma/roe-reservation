@@ -21,22 +21,20 @@ export async function sendNotificationEmail(reservation: any) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
     const mailOptions = {
-        from: process.env.SMTP_FROM || '"Reservation System" <noreply@example.com>',
-        to: 'lovelyatdusksea@gmail.com',
+        from: process.env.SMTP_FROM,
+        to: process.env.SMTP_USER,
         subject: `【予約確定】${reservation.date} ${reservation.timeSlot} ${reservation.name}様`,
         text: `
-新しい予約が入りました（即確定）。
+新しい予約が入りました。
 
 日時: ${reservation.date} ${reservation.timeSlot}
 人数: ${reservation.people}名
-内訳: 日替わり定食 ${reservation.teishokuCount}名 / 席のみ ${reservation.seatOnlyCount}名
-お名前: ${reservation.name} 様
-電話番号: ${reservation.phone}
+日替わり: ${reservation.teishokuCount}
+席のみ: ${reservation.seatOnlyCount}
+名前: ${reservation.name}
+電話: ${reservation.phone}
 メモ: ${reservation.memo || 'なし'}
-
---------------------------------
-このメールは自動送信されています。
-    `,
+`
     };
 
     try {
