@@ -90,8 +90,8 @@ export async function POST(request: Request) {
             return { reservation: newReservation };
         });
 
-        // Send email notification (fire and forget)
-        sendNotificationEmail(result.reservation).catch(console.error);
+        // Send email notification (await required for Vercel Serverless Functions)
+        await sendNotificationEmail(result.reservation).catch(console.error);
 
         return NextResponse.json(result.reservation, { status: 201 });
 
