@@ -1,5 +1,7 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Loader2, CheckCircle, XCircle, AlertCircle } from "lucide-react";
