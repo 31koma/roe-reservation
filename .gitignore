@@ -4,3 +4,5 @@ node_modules
 .next
 dev.db
 *.log
+.DS_Store
+**/.DS_Store
