@@ -5,11 +5,11 @@ import { sendNotificationEmail } from '@/lib/email';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { date, timeSlot, name, phone, people, memo, teishokuCount, seatOnlyCount } = body;
+        const { date, timeSlot, name, phone, people, memo, teishokuCount, seatOnlyCount, policyAccepted } = body;
 
         // Validation
-        if (!date || !timeSlot || !name || !phone || !people) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        if (!date || !timeSlot || !name || !phone || !people || !policyAccepted) {
+            return NextResponse.json({ error: 'Missing required fields or policy not accepted' }, { status: 400 });
         }
 
         if (people < 1 || people > 4) {

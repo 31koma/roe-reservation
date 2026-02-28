@@ -25,6 +25,7 @@ export default function BookingCalendar() {
     const [teishokuCount, setTeishokuCount] = useState(1);
     const [seatOnlyCount, setSeatOnlyCount] = useState(0);
     const [memo, setMemo] = useState("");
+    const [policyAccepted, setPolicyAccepted] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
@@ -84,6 +85,7 @@ export default function BookingCalendar() {
                     teishokuCount,
                     seatOnlyCount,
                     memo,
+                    policyAccepted,
                 }),
             });
 
@@ -176,6 +178,7 @@ export default function BookingCalendar() {
                         setTeishokuCount(1);
                         setSeatOnlyCount(0);
                         setMemo("");
+                        setPolicyAccepted(false);
                         setSelectedSlot(null);
                     }}
                 >
@@ -396,10 +399,58 @@ export default function BookingCalendar() {
                                     </div>
                                 )}
 
+                                <div className="space-y-4 pt-4 border-t border-gray-100">
+                                    <div className="text-sm text-gray-700 bg-gray-50 p-4 rounded-md space-y-4 overflow-y-auto max-h-60 border border-gray-200">
+                                        <div>
+                                            <p className="font-bold mb-2">【追加注意事項】</p>
+                                            <ul className="list-disc pl-5 space-y-1 text-xs">
+                                                <li>お席のご指定につきましては、ご要望に添えない場合もございますので、予めご了承ください。</li>
+                                                <li>ご予約のお時間10分を過ぎてご連絡が取れない場合はやむを得ずキャンセル扱いとさせていただく場合がございますので遅れる場合は必ずご連絡ください。</li>
+                                                <li>店内の状況によりましては、お料理の順番が前後する場合がございます。</li>
+                                                <li>お子様がご一緒の際は、直接店舗までお問い合わせください。</li>
+                                                <li>5名様以上のご予約の際は直接店舗までお問い合わせください。</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold mb-2">【キャンセルポリシー】</p>
+                                            <p className="text-xs mb-3 bg-red-50 p-2.5 rounded-md border border-red-100 text-red-800 font-medium leading-relaxed">
+                                                無断キャンセル・変更につきましては、来店時間より起算して下記の通りキャンセル料を頂戴いたします。
+                                            </p>
+
+                                            <p className="font-semibold text-xs mt-2">日替わり定食をご予約の場合</p>
+                                            <ul className="list-none pl-2 text-xs space-y-0.5">
+                                                <li>当日キャンセル　100%</li>
+                                                <li>前日キャンセル　50%</li>
+                                                <li>2日前キャンセル　無料</li>
+                                            </ul>
+
+                                            <p className="font-semibold text-xs mt-2">お席のご予約の場合</p>
+                                            <ul className="list-none pl-2 text-xs space-y-0.5">
+                                                <li>当日キャンセル　500円</li>
+                                                <li>前日キャンセル　300円</li>
+                                                <li>2日前キャンセル　無料</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start space-x-3 bg-white p-3 rounded-md border border-gray-200">
+                                        <input
+                                            type="checkbox"
+                                            id="policy-accept"
+                                            className="mt-1 h-4 w-4 rounded border-gray-300 text-stone-800 focus:ring-stone-800"
+                                            checked={policyAccepted}
+                                            onChange={(e) => setPolicyAccepted(e.target.checked)}
+                                        />
+                                        <label htmlFor="policy-accept" className="text-sm font-medium text-gray-900 leading-snug cursor-pointer">
+                                            上記の注意事項・キャンセルポリシーを確認しました（必読）
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <Button
                                     type="submit"
                                     className="w-full bg-stone-800 hover:bg-stone-700 text-white py-6 text-base tracking-wide shadow-sm"
-                                    disabled={submitting || people > availability[selectedSlot] || remainingAllocation !== 0}
+                                    disabled={submitting || people > availability[selectedSlot] || remainingAllocation !== 0 || !policyAccepted}
                                 >
                                     {submitting ? (
                                         <>
